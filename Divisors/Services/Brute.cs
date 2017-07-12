@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Divisors.Services
 {
@@ -11,6 +12,7 @@ namespace Divisors.Services
                 1
             };
             long limit = numberA > numberB ? numberB : numberA;
+            
             for (long i = 2; i <= limit; i++)
             {
                 if (numberA % i == 0 && numberB % i == 0)

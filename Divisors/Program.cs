@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Divisors
 {
@@ -25,6 +26,23 @@ namespace Divisors
                 Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
                 var result = TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1]));
                 Console.WriteLine("{0} numbers", result.Count);
+                //foreach (var value in result.OrderBy(num => num))
+                //{
+                //    Console.WriteLine("{0}", value);
+                //}
+            }
+            Console.WriteLine("==============================");
+            var brute2 = new Brute2();
+            foreach (var line in File.ReadLines(filePath))
+            {
+                var numbers = _parser.Parse(line);
+                Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
+                var result = TimeLapseDecorator<IList<long>>.Run(() => brute2.Calculate(numbers[0], numbers[1]));
+                Console.WriteLine("{0} numbers", result.Count);
+                //foreach (var value in result.OrderBy(num => num))
+                //{
+                //    Console.WriteLine("{0}", value);
+                //}
             }
 
             Console.WriteLine("Finished");
