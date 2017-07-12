@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Divisors": {
+      "commandName": "Project",
+      "commandLineArgs": "input.txt"
+    }
+  }
+}

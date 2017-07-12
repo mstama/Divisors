@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Divisors.Services
 {
     public class Brute
     {
-        public IList<long> Calculate(long a, long b)
+        public IList<long> Calculate(long numberA, long numberB)
         {
-            var output = new List<long>();
-            output.Add(1);
-            for(long i = 2; i <= a && i <= b; i++)
+            var output = new List<long>
             {
-                if(a%i==0 && b % i == 0)
+                1
+            };
+            long limit = numberA > numberB ? numberB : numberA;
+            for (long i = 2; i <= limit; i++)
+            {
+                if (numberA % i == 0 && numberB % i == 0)
                 {
-                    Console.WriteLine("{0}", i);
                     output.Add(i);
                 }
             }
