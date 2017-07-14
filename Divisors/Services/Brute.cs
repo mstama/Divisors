@@ -19,8 +19,7 @@ namespace Divisors.Services
                 1
             };
             // restart report
-            _progress.Report(0);
-            long limit = numberA > numberB ? numberB : numberA;
+            long limit = Math.Min(numberA,numberB);
             for (long i = 2; i <= limit; i++)
             {
                 _progress.Report((double)i / limit);

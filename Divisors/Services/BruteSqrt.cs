@@ -18,22 +18,21 @@ namespace Divisors.Services
             {
                 1
             };
-            long smaller = numberA > numberB ? numberB : numberA;
-            long bigger = numberA < numberB ? numberB : numberA;
+            long smaller = Math.Min(numberA,numberB);
+            long bigger = Math.Max(numberA, numberB);
             if (bigger % smaller == 0)
             {
                 output.Add(smaller);
             }
             var sqrt = Math.Sqrt(smaller);
             // restart report
-            _progress.Report(0);
             for (long i = 2; i <= sqrt; i++)
             {
                 _progress.Report((double)i / sqrt);
                 if (numberA % i == 0 && numberB % i == 0)
                 {
                     output.Add(i);
-                    var divisor = numberA / i;
+                    var divisor = smaller / i;
                     if (i != divisor)
                     {
                         output.Add(divisor);

@@ -16,7 +16,9 @@ namespace Divisors.Services
         private readonly int _refreshInterval;
         private readonly Timer _timer;
         private int _animationIndex = 0;
+        private int _currentCursorTop = 0;
         private string _currentText = string.Empty;
+        private bool _enabled = false;
         private double _progressValue;
 
         /// <summary>
@@ -37,12 +39,8 @@ namespace Divisors.Services
             _blockCount = blockCount;
             _emptyBarValue = emptyBarValue;
             _fullBarValue = fullBarValue;
-            _timer = new Timer(BuildProgresBar, null, Timeout.Infinite, Timeout.Infinite);
-            // Only update when not redirected
-            if (!Console.IsOutputRedirected)
-            {
-                ResetTimer();
-            }
+            // Just create the timer but disable its calls
+            _timer = new Timer(BuildProgressBar, null, Timeout.Infinite, Timeout.Infinite);
         }
 
         /// <summary>
@@ -53,13 +51,27 @@ namespace Divisors.Services
         {
             value = Math.Max(0, Math.Min(1, value));
             Interlocked.Exchange(ref _progressValue, value);
+            if (value == 1)
+            {
+                lock (_timer)
+                {
+                    StopTimer();
+                }
+            }
+            else
+            {
+                if (!_enabled)
+                {
+                    ResetTimer();
+                }
+            }
         }
 
         /// <summary>
         /// Timer execution
         /// </summary>
         /// <param name="state"></param>
-        private void BuildProgresBar(object state)
+        private void BuildProgressBar(object state)
         {
             lock (_timer)
             {
@@ -95,7 +107,22 @@ namespace Divisors.Services
         /// </summary>
         private void ResetTimer()
         {
-            _timer.Change(_refreshInterval, -1);
+            // Only update when not redirected
+            if (!Console.IsOutputRedirected)
+            {
+                _timer.Change(_refreshInterval, Timeout.Infinite);
+                _enabled = true;
+            }
+        }
+
+        private void StopTimer()
+        {
+            if (_enabled)
+            {
+                _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                UpdateConsole(string.Empty);
+                _enabled = false;
+            }
         }
 
         /// <summary>
@@ -104,6 +131,13 @@ namespace Divisors.Services
         /// <param name="text"></param>
         private void UpdateConsole(string text)
         {
+            // If line changed
+            if (_currentCursorTop != Console.CursorTop)
+            {
+                _currentText = string.Empty;
+                _currentCursorTop = Console.CursorTop;
+            }
+
             // Get length of common portion
             int diffStart = FindDiffStart(text);
 
@@ -142,12 +176,12 @@ namespace Divisors.Services
         {
             if (!_disposed)
             {
+                StopTimer();
                 if (disposing)
                 {
                     _timer.Dispose();
                 }
                 _disposed = true;
-                UpdateConsole(string.Empty);
             }
         }
 

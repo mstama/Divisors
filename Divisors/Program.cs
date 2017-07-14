@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Divisors
 {
@@ -19,11 +18,9 @@ namespace Divisors
             if (!File.Exists(filePath)) { Console.WriteLine("File does not exist!"); }
             Console.WriteLine("Processing file {0}.", args[0]);
             var _parser = new NumbersParser();
-
-
-            foreach (var line in File.ReadLines(filePath))
+            using (var progress = new ProgressConsole())
             {
-                using (var progress = new ProgressConsole())
+                foreach (var line in File.ReadLines(filePath))
                 {
                     var brute = new Brute(progress);
                     var numbers = _parser.Parse(line);
@@ -35,13 +32,11 @@ namespace Divisors
                     //    Console.WriteLine("{0}", value);
                     //}
                 }
-            }
+
 
                 Console.WriteLine("==============================");
 
-            foreach (var line in File.ReadLines(filePath))
-            {
-                using (var progress = new ProgressConsole())
+                foreach (var line in File.ReadLines(filePath))
                 {
                     var brute2 = new BruteSqrt(progress);
                     var numbers = _parser.Parse(line);
