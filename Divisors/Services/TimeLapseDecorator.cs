@@ -11,7 +11,7 @@ namespace Divisors.Services
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            Console.Write("Starting calculation...");
+            Console.WriteLine("Starting calculation...");
             var output = calculate.Invoke();
             stopWatch.Stop();
             Console.WriteLine("Stopped in {0:n0} ms", stopWatch.Elapsed.TotalMilliseconds);
