@@ -11,10 +11,10 @@ namespace Divisors.Services
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            Console.WriteLine("Starting calculation...");
+            Console.Write(">");
             var output = calculate.Invoke();
             stopWatch.Stop();
-            Console.WriteLine("Stopped in {0:n0} ms", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("> {0:n0} ms", stopWatch.Elapsed.TotalMilliseconds);
             return output;
         }
     }

@@ -3,11 +3,11 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class BruteSqrtTests
+    public class CommonDivisorTests
     {
-        private const string _category = "BruteSqrt";
+        private const string _category = "CommonDivisor";
 
-        private readonly BruteSqrt _target = new BruteSqrt(new ProgressEmpty());
+        private readonly CommonDivisor _target = new CommonDivisor(new ProgressEmpty());
 
         [Theory]
         [Trait("Category", _category)]

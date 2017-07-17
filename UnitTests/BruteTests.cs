@@ -1,5 +1,4 @@
 using Divisors.Services;
-using System;
 using Xunit;
 
 namespace UnitTests
@@ -10,48 +9,19 @@ namespace UnitTests
 
         private readonly Brute _target = new Brute(new ProgressEmpty());
 
-        [Fact]
+        [Theory]
         [Trait("Category", _category)]
-        public void TestCalculate()
+        [ClassData(typeof(TestData))]
+        public void TestCalculate(int a, int b, params int[] divs)
         {
-            var output = _target.Calculate(9, 12);
-            Assert.Contains(output, item => item == 1);
-            Assert.Contains(output, item => item == 3);
-        }
+            var output = _target.Calculate(a, b);
 
-        [Fact]
-        [Trait("Category", _category)]
-        public void TestCalculate2()
-        {
-            var output = _target.Calculate(12, 9);
-            Assert.Contains(output, item => item == 1);
-            Assert.Contains(output, item => item == 3);
-        }
+            Assert.Equal<int>(divs.Length, output.Count);
 
-        [Fact]
-        [Trait("Category", _category)]
-        public void TestCalculate3()
-        {
-            var output = _target.Calculate(20, 100);
-            Assert.Contains(output, item => item == 1);
-            Assert.Contains(output, item => item == 2);
-            Assert.Contains(output, item => item == 4);
-            Assert.Contains(output, item => item == 5);
-            Assert.Contains(output, item => item == 10);
-            Assert.Contains(output, item => item == 20);
-        }
-
-        [Fact]
-        [Trait("Category", _category)]
-        public void TestCalculate4()
-        {
-            var output = _target.Calculate(100, 20);
-            Assert.Contains(output, item => item == 1);
-            Assert.Contains(output, item => item == 2);
-            Assert.Contains(output, item => item == 4);
-            Assert.Contains(output, item => item == 5);
-            Assert.Contains(output, item => item == 10);
-            Assert.Contains(output, item => item == 20);
+            foreach (var div in divs)
+            {
+                Assert.Contains(output, item => item == div);
+            }
         }
     }
 }

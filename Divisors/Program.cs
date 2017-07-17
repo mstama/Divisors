@@ -20,33 +20,35 @@ namespace Divisors
             var _parser = new NumbersParser();
             using (var progress = new ProgressConsole())
             {
-                foreach (var line in File.ReadLines(filePath))
-                {
-                    var brute = new Brute(progress);
-                    var numbers = _parser.Parse(line);
-                    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                    var result = TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1]));
-                    Console.WriteLine("{0} numbers", result.Count);
-                    //foreach (var value in result.OrderBy(num => num))
-                    //{
-                    //    Console.WriteLine("{0}", value);
-                    //}
-                }
-
+                //foreach (var line in File.ReadLines(filePath))
+                //{
+                //    var brute = new Brute(progress);
+                //    var numbers = _parser.Parse(line);
+                //    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
+                //    var result = TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1]));
+                //    Console.WriteLine("{0} numbers", result.Count);
+                //}
 
                 Console.WriteLine("==============================");
 
                 foreach (var line in File.ReadLines(filePath))
                 {
-                    var brute2 = new BruteSqrt(progress);
+                    var bruteSqrt = new BruteSqrt(progress);
                     var numbers = _parser.Parse(line);
                     Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                    var result = TimeLapseDecorator<IList<long>>.Run(() => brute2.Calculate(numbers[0], numbers[1]));
+                    var result = TimeLapseDecorator<IList<long>>.Run(() => bruteSqrt.Calculate(numbers[0], numbers[1]));
                     Console.WriteLine("{0} numbers", result.Count);
-                    //foreach (var value in result.OrderBy(num => num))
-                    //{
-                    //    Console.WriteLine("{0}", value);
-                    //}
+                }
+
+                Console.WriteLine("==============================");
+
+                foreach (var line in File.ReadLines(filePath))
+                {
+                    var commonDivisor = new CommonDivisor(progress);
+                    var numbers = _parser.Parse(line);
+                    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
+                    var result = TimeLapseDecorator<IList<long>>.Run(() => commonDivisor.Calculate(numbers[0], numbers[1]));
+                    Console.WriteLine("{0} numbers", result.Count);
                 }
             }
             Console.WriteLine("Finished");
