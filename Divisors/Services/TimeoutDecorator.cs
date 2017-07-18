@@ -1,15 +1,18 @@
 ﻿using Divisors.Exceptions;
+using Divisors.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Divisors.Services
 {
-    public class TimeoutDecorator<T>
+    /// <summary>
+    /// Provide timeout controle to a sync method
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class TimeoutDecorator<T> : IDecorator<T>
     {
-        public static T Run(Func<T> calculate)
+        public T Run(Func<T> calculate)
         {
             var cts = new CancellationTokenSource();
 

@@ -115,11 +115,15 @@ namespace Divisors.Services
             }
         }
 
+        /// <summary>
+        /// Stop timer
+        /// </summary>
         private void StopTimer()
         {
             if (_enabled)
             {
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                // Clean console
                 UpdateConsole(string.Empty);
                 _enabled = false;
             }

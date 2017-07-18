@@ -1,4 +1,5 @@
 ﻿using Divisors.Exceptions;
+using Divisors.Interfaces;
 using Divisors.Services;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,17 @@ namespace Divisors
 {
     internal static class Program
     {
+        private static readonly IList<ICalculator> _calculators = new List<ICalculator>();
+        
+        static Program()
+        {
+            var progress = new ProgressConsole() ;
+            _calculators.Add(new Brute(progress));
+            _calculators.Add(new BruteSqrt(progress));
+            _calculators.Add(new CommonDivisor(progress));
+        }
+
+
         private static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -28,8 +40,8 @@ namespace Divisors
                     Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
                     try
                     {
-                        var result = TimeoutDecorator<IList<long>>.Run(() => TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1])));
-                        Console.WriteLine("{0} numbers", result.Count);
+                        //var result = TimeoutDecorator<IList<long>>.Run(() => TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1])));
+                        //Console.WriteLine("{0} numbers", result.Count);
                     }
                     catch (AggregateException ex)
                     {
@@ -50,8 +62,8 @@ namespace Divisors
                     var bruteSqrt = new BruteSqrt(progress);
                     var numbers = _parser.Parse(line);
                     Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                    var result = TimeLapseDecorator<IList<long>>.Run(() => bruteSqrt.Calculate(numbers[0], numbers[1]));
-                    Console.WriteLine("{0} numbers", result.Count);
+                    //var result = TimeLapseDecorator<IList<long>>.Run(() => bruteSqrt.Calculate(numbers[0], numbers[1]));
+                    //Console.WriteLine("{0} numbers", result.Count);
                 }
 
                 Console.WriteLine("==============================");
@@ -61,8 +73,8 @@ namespace Divisors
                     var commonDivisor = new CommonDivisor(progress);
                     var numbers = _parser.Parse(line);
                     Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                    var result = TimeLapseDecorator<IList<long>>.Run(() => commonDivisor.Calculate(numbers[0], numbers[1]));
-                    Console.WriteLine("{0} numbers", result.Count);
+                    //var result = TimeLapseDecorator<IList<long>>.Run(() => commonDivisor.Calculate(numbers[0], numbers[1]));
+                    //Console.WriteLine("{0} numbers", result.Count);
                 }
             }
             Console.WriteLine("Finished");
