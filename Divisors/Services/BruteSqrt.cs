@@ -4,15 +4,28 @@ using System.Collections.Generic;
 
 namespace Divisors.Services
 {
+    /// <summary>
+    /// Brute force using square root
+    /// </summary>
     public class BruteSqrt : ICalculator
     {
         private readonly IProgress<double> _progress;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="progress"></param>
         public BruteSqrt(IProgress<double> progress)
         {
             _progress = progress;
         }
 
+        /// <summary>
+        /// Calculate the common divisors
+        /// </summary>
+        /// <param name="numberA"></param>
+        /// <param name="numberB"></param>
+        /// <returns></returns>
         public IList<long> Calculate(long numberA, long numberB)
         {
             var output = new List<long>
