@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Divisors.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Divisors.Services
 {
-    public class BruteSqrt
+    public class BruteSqrt : ICalculator
     {
         private readonly IProgress<double> _progress;
 

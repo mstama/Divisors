@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Divisors.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Divisors.Services
 {
-    public class CommonDivisor
+    public class CommonDivisor : ICalculator
     {
         private readonly IProgress<double> _progress;
 
