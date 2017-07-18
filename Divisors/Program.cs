@@ -1,4 +1,5 @@
-﻿using Divisors.Services;
+﻿using Divisors.Exceptions;
+using Divisors.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,14 +21,27 @@ namespace Divisors
             var _parser = new NumbersParser();
             using (var progress = new ProgressConsole())
             {
-                //foreach (var line in File.ReadLines(filePath))
-                //{
-                //    var brute = new Brute(progress);
-                //    var numbers = _parser.Parse(line);
-                //    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                //    var result = TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1]));
-                //    Console.WriteLine("{0} numbers", result.Count);
-                //}
+                foreach (var line in File.ReadLines(filePath))
+                {
+                    var brute = new Brute(progress);
+                    var numbers = _parser.Parse(line);
+                    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
+                    try
+                    {
+                        var result = TimeoutDecorator<IList<long>>.Run(() => TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1])));
+                        Console.WriteLine("{0} numbers", result.Count);
+                    }
+                    catch (AggregateException ex)
+                    {
+                        ex.Handle(e => {
+                            if (e is DivisorsException)
+                            {
+                                Console.Write("Timeout occured.");
+                            }
+                            return e is DivisorsException;
+                                });
+                    }
+                }
 
                 Console.WriteLine("==============================");
 
