@@ -3,6 +3,7 @@ using Divisors.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Divisors.Services
 {
@@ -10,13 +11,20 @@ namespace Divisors.Services
     /// Provide timeout controle to a sync method
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TimeoutDecorator<T> : IDecorator<T>
+    public class TimeoutDecorator:ICalculator
     {
-        public T Run(Func<T> calculate)
+        private readonly ICalculator _calculator;
+
+        public TimeoutDecorator(ICalculator calculator)
+        {
+            _calculator = calculator;
+        }
+
+        public IList<long> Calculate(long numberA, long numberB)
         {
             var cts = new CancellationTokenSource();
 
-            var inner = Task.Run<T>(calculate, cts.Token);
+            var inner = Task.Run<IList<long>>(()=>_calculator.Calculate(numberA,numberB), cts.Token);
             var delay = Task.Delay(TimeSpan.FromSeconds(5), cts.Token);
             Task.WhenAny(inner, delay).ContinueWith(
                 t =>
@@ -37,6 +45,11 @@ namespace Divisors.Services
 
                 ).Wait();
             return inner.Result;
+        }
+
+        public override string ToString()
+        {
+            return _calculator.ToString();
         }
     }
 }

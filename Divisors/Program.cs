@@ -10,15 +10,14 @@ namespace Divisors
     internal static class Program
     {
         private static readonly IList<ICalculator> _calculators = new List<ICalculator>();
-        
+        private static readonly ProgressConsole _progress;
         static Program()
         {
-            var progress = new ProgressConsole() ;
-            _calculators.Add(new Brute(progress));
-            _calculators.Add(new BruteSqrt(progress));
-            _calculators.Add(new CommonDivisor(progress));
+            _progress = new ProgressConsole();
+            _calculators.Add(new TimeoutDecorator(new TimeLapseDecorator(new Brute(_progress))));
+            _calculators.Add(new TimeoutDecorator(new TimeLapseDecorator(new BruteSqrt(_progress))));
+            _calculators.Add(new TimeoutDecorator(new TimeLapseDecorator(new CommonDivisor(_progress))));
         }
-
 
         private static void Main(string[] args)
         {
@@ -31,53 +30,33 @@ namespace Divisors
             if (!File.Exists(filePath)) { Console.WriteLine("File does not exist!"); }
             Console.WriteLine("Processing file {0}.", args[0]);
             var _parser = new NumbersParser();
-            using (var progress = new ProgressConsole())
+            foreach (var line in File.ReadLines(filePath))
             {
-                foreach (var line in File.ReadLines(filePath))
+                var numbers = _parser.Parse(line);
+                Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
+                foreach (var calculator in _calculators)
                 {
-                    var brute = new Brute(progress);
-                    var numbers = _parser.Parse(line);
-                    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
                     try
                     {
-                        //var result = TimeoutDecorator<IList<long>>.Run(() => TimeLapseDecorator<IList<long>>.Run(() => brute.Calculate(numbers[0], numbers[1])));
-                        //Console.WriteLine("{0} numbers", result.Count);
+                        var result = calculator.Calculate(numbers[0], numbers[1]);
+                        Console.WriteLine("{0} - {1} numbers", calculator, result.Count);
                     }
                     catch (AggregateException ex)
                     {
-                        ex.Handle(e => {
+                        ex.Handle(e =>
+                        {
                             if (e is DivisorsException)
                             {
+                                _progress.Report(1);
                                 Console.Write("Timeout occured.");
                             }
                             return e is DivisorsException;
-                                });
+                        });
                     }
-                }
-
-                Console.WriteLine("==============================");
-
-                foreach (var line in File.ReadLines(filePath))
-                {
-                    var bruteSqrt = new BruteSqrt(progress);
-                    var numbers = _parser.Parse(line);
-                    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                    //var result = TimeLapseDecorator<IList<long>>.Run(() => bruteSqrt.Calculate(numbers[0], numbers[1]));
-                    //Console.WriteLine("{0} numbers", result.Count);
-                }
-
-                Console.WriteLine("==============================");
-
-                foreach (var line in File.ReadLines(filePath))
-                {
-                    var commonDivisor = new CommonDivisor(progress);
-                    var numbers = _parser.Parse(line);
-                    Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
-                    //var result = TimeLapseDecorator<IList<long>>.Run(() => commonDivisor.Calculate(numbers[0], numbers[1]));
-                    //Console.WriteLine("{0} numbers", result.Count);
                 }
             }
             Console.WriteLine("Finished");
+            _progress.Dispose();
             Console.ReadLine();
         }
     }
