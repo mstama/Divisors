@@ -7,7 +7,7 @@ namespace UnitTests
     {
         private const string _category = "CommonDivisor";
 
-        private readonly CommonDivisor _target = new CommonDivisor(new ProgressEmpty());
+        private readonly CommonDivisor _target = new CommonDivisor();
 
         [Theory]
         [Trait("Category", _category)]

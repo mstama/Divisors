@@ -7,7 +7,7 @@ namespace UnitTests
     {
         private const string _category = "BruteSqrt";
 
-        private readonly BruteSqrt _target = new BruteSqrt(new ProgressEmpty());
+        private readonly BruteSqrt _target = new BruteSqrt();
 
         [Theory]
         [Trait("Category", _category)]

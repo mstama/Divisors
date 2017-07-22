@@ -7,27 +7,17 @@ namespace Divisors.Services
     /// <summary>
     /// Brute force finding the divisors
     /// </summary>
-    public class Brute : ICalculator
+    public class Brute : AbstractCalculator
     {
-        private readonly IProgress<double> _progress;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="progress"></param>
-        public Brute(IProgress<double> progress)
-        {
-            _progress = progress;
-        }
-
         /// <summary>
         /// Calculate the common divisors
         /// </summary>
         /// <remarks>This can take a long time...</remarks>
         /// <param name="numberA"></param>
         /// <param name="numberB"></param>
+        /// <param name="progress"></param>
         /// <returns></returns>
-        public IList<long> Calculate(long numberA, long numberB)
+        public override IList<long> Calculate(long numberA, long numberB, IProgress<double> progress)
         {
             var output = new List<long>
             {
@@ -37,7 +27,7 @@ namespace Divisors.Services
             long limit = Math.Min(numberA, numberB);
             for (long i = 2; i <= limit; i++)
             {
-                _progress.Report((double)i / limit);
+                progress.Report((double)i / limit);
                 if (numberA % i == 0 && numberB % i == 0)
                 {
                     output.Add(i);

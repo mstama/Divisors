@@ -1,5 +1,4 @@
-﻿using Divisors.Exceptions;
-using Divisors.Interfaces;
+﻿using Divisors.Interfaces;
 using Divisors.Services;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,12 @@ namespace Divisors
     internal static class Program
     {
         private static readonly IList<ICalculator> _calculators = new List<ICalculator>();
-        private static readonly ProgressConsole _progress;
+
         static Program()
         {
-            _progress = new ProgressConsole();
-            _calculators.Add(new TimeoutDecorator(new TimeLapseDecorator(new Brute(_progress))));
-            _calculators.Add(new TimeoutDecorator(new TimeLapseDecorator(new BruteSqrt(_progress))));
-            _calculators.Add(new TimeoutDecorator(new TimeLapseDecorator(new CommonDivisor(_progress))));
+            _calculators.Add(new TimeLapseDecorator(new ProgressConsoleDecorator(new TimeoutDecorator(new Brute()))));
+            _calculators.Add(new TimeLapseDecorator(new ProgressConsoleDecorator(new TimeoutDecorator(new BruteSqrt()))));
+            _calculators.Add(new TimeLapseDecorator(new ProgressConsoleDecorator(new TimeoutDecorator(new CommonDivisor()))));
         }
 
         private static void Main(string[] args)
@@ -36,27 +34,11 @@ namespace Divisors
                 Console.WriteLine("A:{0:n0} B:{1:n0}", numbers[0], numbers[1]);
                 foreach (var calculator in _calculators)
                 {
-                    try
-                    {
-                        var result = calculator.Calculate(numbers[0], numbers[1]);
-                        Console.WriteLine("{0} - {1} numbers", calculator, result.Count);
-                    }
-                    catch (AggregateException ex)
-                    {
-                        ex.Handle(e =>
-                        {
-                            if (e is DivisorsException)
-                            {
-                                _progress.Report(1);
-                                Console.Write("Timeout occured.");
-                            }
-                            return e is DivisorsException;
-                        });
-                    }
+                    var result = calculator.Calculate(numbers[0], numbers[1]);
+                    Console.WriteLine("{0} - {1} numbers", calculator, result.Count);
                 }
             }
             Console.WriteLine("Finished");
-            _progress.Dispose();
             Console.ReadLine();
         }
     }

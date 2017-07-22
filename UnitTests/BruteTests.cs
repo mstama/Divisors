@@ -7,7 +7,7 @@ namespace UnitTests
     {
         private const string _category = "Brute";
 
-        private readonly Brute _target = new Brute(new ProgressEmpty());
+        private readonly Brute _target = new Brute();
 
         [Theory]
         [Trait("Category", _category)]

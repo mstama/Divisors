@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Divisors.Interfaces
 {
@@ -14,5 +15,14 @@ namespace Divisors.Interfaces
         /// <param name="numberB"></param>
         /// <returns></returns>
         IList<long> Calculate(long numberA, long numberB);
+
+        /// <summary>
+        /// Do the math and report progress
+        /// </summary>
+        /// <param name="numberA"></param>
+        /// <param name="numberB"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
+        IList<long> Calculate(long numberA, long numberB, IProgress<double> progress);
     }
 }
