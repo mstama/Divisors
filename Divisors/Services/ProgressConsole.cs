@@ -5,7 +5,7 @@ using System.Threading;
 namespace Divisors.Services
 {
     /// <summary>
-    /// ASCII Console Progress Bar Code from: https://gist.github.com/DanielSWolf/0ab6a96899cc5377bf54
+    /// ASCII Console Progress Bar Code from: https://gist.github.com/DanielSWolf/0ab6a96899cc5377bf54#file-progressbar-cs
     /// </summary>
     public class ProgressConsole : IProgress<double>, IDisposable
     {
