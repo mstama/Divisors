@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Divisors.Services
 {
-    public class ProgressConsoleDecorator : AbstractCalculator
+    public class ProgressConsoleDecorator : ICalculator
     {
         private readonly ICalculator _calculator;
 
@@ -24,7 +24,7 @@ namespace Divisors.Services
         /// <param name="numberB"></param>
         /// <param name="progress"></param>
         /// <returns></returns>
-        public override IList<long> Calculate(long numberA, long numberB, IProgress<double> progress)
+        public IList<long> Calculate(long numberA, long numberB, IProgress<double> progress)
         {
             return Calculate(numberA, numberB);
         }
@@ -35,7 +35,7 @@ namespace Divisors.Services
         /// <param name="numberA"></param>
         /// <param name="numberB"></param>
         /// <returns></returns>
-        public override IList<long> Calculate(long numberA, long numberB)
+        public IList<long> Calculate(long numberA, long numberB)
         {
             using (var progress = new ProgressConsole())
             {
