@@ -25,7 +25,11 @@ namespace Divisors
                 return;
             }
             string filePath = args[0];
-            if (!File.Exists(filePath)) { Console.WriteLine("File does not exist!"); }
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("File does not exist!");
+                return;
+            }
             Console.WriteLine("Processing file {0}.", args[0]);
             var _parser = new NumbersParser();
             foreach (var line in File.ReadLines(filePath))
