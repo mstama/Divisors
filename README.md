@@ -49,4 +49,6 @@ dotnet test
 ### Acknowledgements
 ProgressConsole is built based on the following open source code:
 
-[ASCII Console Progress Bar](https://gist.github.com/DanielSWolf/0ab6a96899cc5377bf54#file-progressbar-cs)
+* [ASCII Console Progress Bar](https://gist.github.com/DanielSWolf/0ab6a96899cc5377bf54#file-progressbar-cs)
+
+[GitHub Project Repository](https://github.com/mstama/Divisors)
