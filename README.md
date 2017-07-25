@@ -1,6 +1,7 @@
 # Divisors
 
 Common divisors of two numbers.
+
 Sample solution showing elapsed time in different algorithms to find common divisors of two given numbers.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/p3y52hvfrhggk4uh?svg=true)](https://ci.appveyor.com/project/mstama/divisors)
@@ -47,4 +48,5 @@ dotnet test
 
 ### Acknowledgements
 ProgressConsole is built based on the following open source code:
-[ASCII Console Progress Bar] (https://gist.github.com/DanielSWolf/0ab6a96899cc5377bf54#file-progressbar-cs)
+
+[ASCII Console Progress Bar](https://gist.github.com/DanielSWolf/0ab6a96899cc5377bf54#file-progressbar-cs)
