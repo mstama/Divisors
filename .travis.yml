@@ -1,0 +1,11 @@
+language: csharp
+solution: Divisors.sln
+mono: none
+dotnet: 1.0.3
+dist: trusty
+script:
+ - dotnet restore
+ - dotnet build
+ - dotnet test ./UnitTests/UnitTests.csproj
+notifications:
+  email: false
