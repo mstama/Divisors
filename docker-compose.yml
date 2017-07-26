@@ -1,8 +1,0 @@
-version: '2'
-
-services:
-  divisors:
-    image: divisors
-    build:
-      context: ./Divisors
-      dockerfile: Dockerfile

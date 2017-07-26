@@ -1,8 +1,0 @@
-@rem docker-compose -f "C:\code\Challenge\Divisors\docker-compose.yml" -f "C:\code\Challenge\Divisors\docker-compose.override.yml" -f "C:\code\Challenge\Divisors\docker-compose.vs.release.yml" -p dockercompose431435709 kill
-@rem docker-compose -f "C:\code\Challenge\Divisors\docker-compose.yml" -f "C:\code\Challenge\Divisors\docker-compose.override.yml" -f "C:\code\Challenge\Divisors\docker-compose.vs.release.yml" -p dockercompose431435709 down --rmi local --remove-orphans
-@rem docker-compose -f "C:\code\Challenge\Divisors\docker-compose.yml" -f "C:\code\Challenge\Divisors\docker-compose.override.yml" -f "C:\code\Challenge\Divisors\docker-compose.vs.debug.yml" -p dockercompose431435709 kill
-@rem docker-compose -f "C:\code\Challenge\Divisors\docker-compose.yml" -f "C:\code\Challenge\Divisors\docker-compose.override.yml" -f "C:\code\Challenge\Divisors\docker-compose.vs.debug.yml" -p dockercompose431435709 down --rmi local --remove-orphans
-@rem docker  images --filter dangling=true --format {{.ID}}
-@rem docker-compose -f "C:\code\Challenge\Divisors\docker-compose.yml" -f "C:\code\Challenge\Divisors\docker-compose.override.yml" -f "C:\code\Challenge\Divisors\docker-compose.vs.release.yml" -p dockercompose431435709 config
-@rem docker  ps --filter "status=running" --filter "name=dockercompose431435709_divisors_" --format {{.ID}} -n 1
-docker-compose -f "C:\code\Challenge\Divisors\docker-compose.yml" -f "C:\code\Challenge\Divisors\docker-compose.override.yml" -f "C:\code\Challenge\Divisors\docker-compose.vs.release.yml" -p dockercompose431435709 build --no-cache
