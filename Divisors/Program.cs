@@ -43,7 +43,6 @@ namespace Divisors
                 }
             }
             Console.WriteLine("Finished");
-            Console.ReadLine();
         }
     }
 }

@@ -1,7 +1,17 @@
 ﻿# Create and configura a docker image to run the program
-FROM microsoft/dotnet:latest
-ADD . /app/
-WORKDIR /app/
+FROM microsoft/dotnet:latest AS build-env
+WORKDIR /app
+
+# Add all files but those included in docker ignore
+COPY *.csproj ./
 RUN dotnet restore
+
+# Copy other files and build
+ADD . ./
 RUN dotnet publish -c Release -o out
-ENTRYPOINT ["dotnet", "out/Divisors.dll", "input.txt"]
+
+# Build runtime image
+FROM microsoft/dotnet:runtime
+WORKDIR /app
+COPY --from=build-env /app/out ./
+ENTRYPOINT ["dotnet", "Divisors.dll", "input.txt"]
